@@ -15,3 +15,116 @@
 Have fun!
 
 */
+
+@counter-style mood {
+  system: cyclic;
+  symbols: 
+  "😔" "🙁" "😕" "😒" "😌" "🙂" "😀" "😄" "😁" "😊" "😞" ;
+  suffix: "";
+}
+
+main {
+  counter-set:
+    tokens 0
+    available 0
+  ;
+}
+
+p#mood::after {
+  content: counter(tokens, mood);
+}
+
+main:has(.finish :checked),
+main:has(.start :checked) {
+  div.tokens {
+    label {
+      counter-increment: available;
+    }
+
+    input:checked {
+      counter-increment: tokens;
+    }
+  }
+}
+
+p#score::after {
+  content: counter(tokens);
+  margin-left: var(--gap);
+}
+
+/* Run a timer up to 99s when .start input is :checked
+ * Pause this timer when .finish input is :checked
+ */
+body:not(:has(.off:checked)) {
+  animation: units 10s step-end forwards 10;
+}
+/* Use a different element for each animation */
+main:not(:has(.off:checked)) {
+  animation: tens 100s step-end forwards;
+}
+/* Stop both animations if #message:hover is applicable.
+ * Also check for .finish :checked since :hover doesn't
+ * work on touch screens.
+ */
+
+:has(#message:hover),
+main:has(.finish :checked),
+body:has(.finish :checked)  {
+  animation-play-state: paused;
+}
+
+
+p#timer::after {
+  content: counter(tens) counter(units);
+  margin-left: var(--gap);
+  font-family:'Courier New', Courier, monospace
+}
+
+
+/* By default, assume the player failed */
+#message .time::after {
+  content: "after " counter(tens) counter(units) " seconds!";
+}
+/* .finish will only be :checked if the player did not fail */
+main:has(.finish :checked) #message {
+  .time::after {
+    content: "in " counter(tens) counter(units) " seconds";
+  }
+  .tokens {
+    display: block;
+    span::before {
+      content: counter(tokens);
+    }
+    span::after {
+      content: counter(available);
+    }
+  }
+}
+
+@keyframes units {
+    0% { counter-increment: units 0; }
+   10% { counter-increment: units 1; }
+   20% { counter-increment: units 2; }
+   30% { counter-increment: units 3; }
+   40% { counter-increment: units 4; }
+   50% { counter-increment: units 5; }
+   60% { counter-increment: units 6; }
+   70% { counter-increment: units 7; }
+   80% { counter-increment: units 8; }
+   90% { counter-increment: units 9; }
+  100% { counter-increment: units 0; }
+}
+
+@keyframes tens {
+    0% { counter-increment: tens 0; }
+   10% { counter-increment: tens 1; }
+   20% { counter-increment: tens 2; }
+   30% { counter-increment: tens 3; }
+   40% { counter-increment: tens 4; }
+   50% { counter-increment: tens 5; }
+   60% { counter-increment: tens 6; }
+   70% { counter-increment: tens 7; }
+   80% { counter-increment: tens 8; }
+   90% { counter-increment: tens 9; }
+  100% { counter-increment: tens 0; }
+};
