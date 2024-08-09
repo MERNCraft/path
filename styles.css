@@ -1,0 +1,421 @@
+/* Create custom CSS properties for sizes and colors */
+:root {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --link: #060;
+  --link-border: #393;
+  --button-active: #000;
+
+  --size: 300px;
+  --half: calc(var(--size) /2);
+  --turn: calc(var(--half) - var(--gap));
+  --path: 42px;
+  --gap: 8px;
+  --space: calc(var(--path) + var(--gap));
+  --walls: calc(var(--path) + var(--gap));
+  --line: calc(var(--size) - 2 * (var(--path) + var(--gap)));
+  --bend: calc(2 * var(--path) + var(--gap));
+  --token: calc(var(--path) / 2);
+
+  --white: #fff;
+  --light: #ddd;
+  --dark: #222;
+  --road: #999;
+  --start: #090;
+  --start-border: #3c3;
+  --finish: #c00;
+  --finish: #c00;
+  --finish-border: #f33;
+
+  --lost-color: #f60;
+  --lost-bg: #630;
+  --won-color: #000;
+  --won-bg: goldenrod;
+}
+
+/* Center main */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light);
+  background-color: var(--dark);
+}
+
+.button {
+  border: 1px outset var(--border);
+  border-radius: var(--gap);
+  box-sizing: border-box;
+  opacity: 0.5;
+}
+input:not(:checked) ~ .button,
+#message .button {
+  &:hover {
+    opacity: 1;
+    color: var(--white);
+  }
+}
+input:not(:checked) ~ .button,
+#message .button {
+  &:hover:active {
+    background-color: var(--button-active);
+    border-style: inset;
+  }
+}
+
+/* Make main the same width as a default iframe */
+main {
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid var(--white);
+  border-radius: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Move the input elements out of main */
+input {
+  position: absolute;
+  left: -999vw;
+  top: 0em; /* HACK: put at top to stop stuff in main shifting */
+}
+
+
+/* Style the .start and .finish radio button label spans */
+.start span,
+.finish span {
+  position: absolute;
+  width: var(--path);
+  height: var(--path);
+  border-bottom-right-radius: var(--path); /* curved edge */
+}
+/* Place .start at the beginning of the path */
+.start span {
+  z-index: 1; /* Move in front of path */
+  top: var(--gap);
+  left: var(--gap);
+  border-top-right-radius: var(--path);
+  background-color: var(--start);
+  --border: var(--start-border);
+}
+/* Center .finish at the bottom */
+.finish span {
+  left: 128px;
+  bottom: var(--gap);
+  border-bottom-left-radius: var(--path);
+  background-color: var(--finish);
+  opacity: 1;
+  --border: var(--finish-border);
+}
+.off:checked ~ .finish span {
+  pointer-events: none;
+}
+
+
+/* Style the .ground and the .walls... */
+div.ground {
+  width: var(--size);
+  height: var(--size);
+  pointer-events: none;
+}
+div.walls {
+  position: absolute;
+  top: var(--walls);
+  left: var(--walls);
+  width: var(--line);
+  pointer-events: none;
+
+  div {
+    height: var(--gap);
+    background-color: var(--dark);
+    border-radius: var(--gap);
+    margin-bottom: var(--path);
+  }
+}
+/* ... and show a You Lose message if the mouse
+ * passes over them
+ */
+main:has(.ground:hover, .walls:hover) #message {
+  display: flex;
+  /* #message:hover will now apply, and this will keep
+   * the #message at the front, even if .ground:hover
+   * and .walls:hover no longer do.
+   */
+}
+
+
+/* Place and shape the pieces of the path */
+div.left,
+div.right {
+  position: absolute;
+  top: var(--gap);
+  pointer-events: none;
+
+  div {
+    width: var(--turn);
+    height: var(--bend);
+    margin-bottom: var(--gap);
+    background-color: var(--road);
+    border-radius: var(--half);
+    pointer-events: all;
+  }
+}
+
+div div.start,
+div div.end {
+  height: var(--path);
+  border-radius: 0;
+}
+div div.end {
+  border-top-right-radius: var(--path);
+  border-bottom-right-radius: var(--path);
+}
+
+div.left {
+  div {
+    position: relative;
+    left: var(--gap);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+div.right {
+  left: var(--half);
+
+  div{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+
+/* Place tokens on the path */
+div.tokens {
+  /* Prevent clicks on .tokens if .start input not checked */
+  pointer-events: none;
+
+  /* Show tokens as gold circles in specific places */
+  label {
+    span {
+      position: absolute;
+      display: inline-block;
+      width: var(--token);
+      height: var(--token);
+      border-radius: var(--token);
+      background-color: gold;
+    }
+  }
+
+  label:nth-child(4n - 2) span {
+    left: 260px;
+  }
+  label:nth-child(4n) span {
+    left: 20px;
+  }
+  label:nth-child(odd) span {
+    left: 140px;
+  }
+
+  label:nth-child(1) span {
+    top: 18.5px;
+  }
+  label:nth-child(2) span {
+    top: 45px;
+  }
+  label:nth-child(3) span {
+    top: 68.5px;
+  }
+  label:nth-child(4) span {
+    top: 95px;
+    left: 20px
+  }
+  label:nth-child(5) span {
+    top: 118.5px;
+  }
+  label:nth-child(6) span {
+    top: 145px;
+  }
+  label:nth-child(7) span {
+    top: 168.5px;
+  }
+  label:nth-child(8) span {
+    top: 195px;
+  }
+  label:nth-child(9) span {
+    top: 218.5px;
+  }
+  label:nth-child(10) span {
+    top: 218.5px;
+  }
+}
+
+
+/* When .start is :checked, the game begins... */
+main:has(.start :checked) {
+  /* ... so make the .ground and the .walls react to :hover...*/
+  .ground,
+  .walls div {
+    pointer-events: all;
+  }
+
+  /* ... and treat clicks on the gold tokens */
+  .tokens span {
+    pointer-events: all;
+  }
+}
+
+/* Hide tokens that have been clicked on, even when
+ * the game is over
+ */
+main:has(.start :checked),
+main:has(.finish :checked) {
+  div.tokens input:checked + span {
+    display: none;
+  }
+}
+
+
+/* Place the Score, Mood and Time elements */
+p#mood{
+  position: absolute;
+  margin: 0;
+  bottom: 5px;
+  left: 85px;
+  font-size: 40px;
+  line-height: 40px;
+}
+p#score,
+p#timer {
+  position: absolute;
+  bottom: 0;
+  margin: 11px;
+  width: 106px;
+}
+
+p#timer {
+  right: 0;
+}
+
+
+/* Style the You Win/Lose message, and show the
+ * appropriate texts
+ */
+#message {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 1.25em;
+
+  color: var(--lost-color);
+  background-color: var(--lost-bg);
+  display: none;
+
+  p {
+    margin: 0;
+  }
+
+  .tokens {
+    display: none;
+  }
+}
+
+/* Show a You Win message if the mouse reaches the
+ * end without leaving the path. Assume that all the
+ * tokens were collected and so set the #message to
+ * the winning colors... but if this is NOT true then
+ */
+main:has(.finish :checked) #message {
+  display: flex;
+  color: var(--won-color);
+  background-color: var(--won-bg);
+}
+
+/* If #message:hover then the game is over */
+#message:hover {
+  display: flex;
+}
+
+/* By default, assume the player failed */
+#message {
+  .status::after {
+    content: "You went off track"
+  }
+}
+
+/* Players can't click the .finish button if they fall
+ * off the track, which makes the #message come to the
+ * front where it blocks access to the .finish button.
+ * So if the .finish button is checked, the player
+ * arrived safely at the end...
+ */
+main:has(.finish :checked) #message {
+  .status::after {
+    content: "You finished the course"
+  }
+}
+/* ... but if even one of the .tokens has not been
+ * :checked, hide the Well Done! message and mute the
+ * colors.
+ */
+main:has(.finish :checked) .tokens:has(input:not(:checked)) ~ #message {
+  color: var(--light);
+  background-color: var(--dark);
+
+  .all {
+    display: none;
+  }
+}
+/* Also hide the Well Done! message if the player fell
+ * off the path, so the .start button is still :checked
+ */
+main:has(.start :checked) #message .all {
+  display: none;
+}
+
+/* Replay link */
+a.button {
+  --border: var(--link-border);
+  margin-top: 1em;
+  padding: var(--gap) 1em;
+  background-color: var(--link);
+  color: var(--light);
+  text-decoration: none;
+}
+
+
+
+/* Show the GitHub logo */
+a.github {
+  width: 0;
+  height: 0;
+
+  img {
+    position: absolute;
+    right: 0px;
+    bottom: 178px;
+    width: 32px;
+    height: 32px;
+    filter: grayscale(1);
+    opacity: 0.25;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

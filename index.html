@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  <title>Maze</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="counters.css">
+</head>
+<body>
+  <main>
+
+    <input type="radio" name="play" class="off" checked>
+
+    <label class="start">
+      <input type="radio" name="play">
+      <span class="button"></span>
+    </label>
+
+    <label class="finish">
+      <input type="radio" name="play">
+      <span class="button"></span>
+    </label>
+
+    <div class="ground"></div>
+
+    <div id="path">
+      <div class="left">
+        <div class="start"></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="right">
+        <div></div>
+        <div></div>
+        <div class="end"></div>
+      </div>
+    </div>
+
+    <div class="walls">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <div class="tokens">
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span></span>
+      </label>
+    </div>
+
+    <p id="score">Score:</p>
+    <p id="mood"></p>
+    <p id="timer">Time:</p>
+    <div id="message">
+      <p class="status"></p>
+      <p class="time"></p>
+      <p class="tokens">and picked up <span>/</span> tokens!</p>
+      <p class="all">Well done!</p>
+
+      <!-- <p>You ran off the track</p>
+      <p>after <span></span> seconds</p>
+
+      <p>You ran out of time</p>
+      <p>after <span></span> seconds</p> -->
+
+      <a href="/" class="button">Play Again</a>
+    </div>
+
+
+    <a
+      class="github"
+      href="https://github.com/MERNCraft/path"
+    >
+      <img src="github.svg" alt="github">
+    </a>
+  </main>
+</body>
+</html>

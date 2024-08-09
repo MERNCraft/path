@@ -1,0 +1,17 @@
+/* Add your own CSS here, in order to:
+
+1. Show the Score as a number
+2. Show an emoji whose expression changes as the Score increases
+   (Hint — you can use this set of emojis, if you like:
+    "😔" "🙁" "😕" "😒" "😌" "🙂" "😀" "😄" "😁" "😊" "😞"
+   )
+3. Create a timer to show the Time since the player clicked on
+   the .start .button. Note that you will have to count more
+   than 10 seconds... but players should finish the game (or
+   get bored with it) in less than 100 seconds
+4. Stop the timer when the player moves the mouse off the path
+   or when they click on the .finish .button.
+
+Have fun!
+
+*/
