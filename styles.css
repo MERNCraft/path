@@ -13,6 +13,7 @@
   --turn: calc(var(--half) - var(--gap));
   --path: 42px;
   --gap: 8px;
+  --fade: 0.25;
   --space: calc(var(--path) + var(--gap));
   --walls: calc(var(--path) + var(--gap));
   --line: calc(var(--size) - 2 * (var(--path) + var(--gap)));
@@ -33,6 +34,8 @@
   --lost-bg: #630;
   --won-color: #000;
   --won-bg: goldenrod;
+
+  --pulse: pulse 1s alternate infinite ease-in-out;
 }
 
 /* Center main */
@@ -51,7 +54,6 @@ body {
   border: 1px outset var(--border);
   border-radius: var(--gap);
   box-sizing: border-box;
-  opacity: 0.5;
 }
 input:not(:checked) ~ .button,
 #message .button {
@@ -113,8 +115,17 @@ input {
   opacity: 1;
   --border: var(--finish-border);
 }
+
+.off:checked ~ .start span {
+  animation: var(--pulse);
+  cursor: pointer;
+}
 .off:checked ~ .finish span {
   pointer-events: none;
+}
+.start:has(:checked) ~ .finish span {
+  --fade: 0.75;
+  animation: var(--pulse);
 }
 
 
@@ -255,7 +266,9 @@ div.tokens {
     top: 218.5px;
   }
 }
-
+.off:checked ~ .tokens {
+  opacity: var(--fade);
+}
 
 /* When .start is :checked, the game begins... */
 main:has(.start :checked) {
@@ -268,6 +281,11 @@ main:has(.start :checked) {
   /* ... and treat clicks on the gold tokens */
   .tokens span {
     pointer-events: all;
+    cursor: pointer;
+  }
+  .tokens span:hover {
+    --fade: 0.75;
+    animation: var(--pulse);
   }
 }
 
@@ -396,6 +414,12 @@ a.button {
   background-color: var(--link);
   color: var(--light);
   text-decoration: none;
+}
+
+
+@keyframes pulse {
+  from { opacity: var(--fade); }
+  to { opacity: 1; }
 }
 
 
