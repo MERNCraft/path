@@ -38,7 +38,7 @@
   --pulse: pulse 1s alternate infinite ease-in-out;
 }
 
-/* Center main */
+/* Center form */
 body {
   margin: 0;
   padding: 0;
@@ -50,28 +50,29 @@ body {
   background-color: var(--dark);
 }
 
+button,
 .button {
   border: 1px outset var(--border);
   border-radius: var(--gap);
   box-sizing: border-box;
 }
 input:not(:checked) ~ .button,
-#message .button {
+#message button {
   &:hover {
     opacity: 1;
     color: var(--white);
   }
 }
 input:not(:checked) ~ .button,
-#message .button {
+#message button {
   &:hover:active {
     background-color: var(--button-active);
     border-style: inset;
   }
 }
 
-/* Make main the same width as a default iframe */
-main {
+/* Make form the same width as a default iframe */
+form {
   position: relative;
   width: var(--size);
   height: var(--size);
@@ -81,11 +82,11 @@ main {
   overflow: hidden;
 }
 
-/* Move the input elements out of main */
+/* Move the input elements out of form */
 input {
   position: absolute;
   left: -999vw;
-  top: 0em; /* HACK: put at top to stop stuff in main shifting */
+  top: 0em; /* HACK: put at top to stop stuff in form shifting */
 }
 
 
@@ -152,7 +153,7 @@ div.walls {
 /* ... and show a You Lose message if the mouse
  * passes over them
  */
-main:has(.ground:hover, .walls:hover) #message {
+form:has(.ground:hover, .walls:hover) #message {
   display: flex;
   /* #message:hover will now apply, and this will keep
    * the #message at the front, even if .ground:hover
@@ -271,7 +272,7 @@ div.tokens {
 }
 
 /* When .start is :checked, the game begins... */
-main:has(.start :checked) {
+form:has(.start :checked) {
   /* ... so make the .ground and the .walls react to :hover...*/
   .ground,
   .walls div {
@@ -292,8 +293,8 @@ main:has(.start :checked) {
 /* Hide tokens that have been clicked on, even when
  * the game is over
  */
-main:has(.start :checked),
-main:has(.finish :checked) {
+form:has(.start :checked),
+form:has(.finish :checked) {
   div.tokens input:checked + span {
     display: none;
   }
@@ -358,14 +359,14 @@ p#timer {
  * tokens were collected and so set the #message to
  * the winning colors... but if this is NOT true then
  */
-main:has(.finish :checked) #message {
+form:has(.finish :checked) #message {
   display: flex;
   color: var(--won-color);
   background-color: var(--won-bg);
 }
 
 /* If #message:hover then the game is over */
-#message:hover {
+.off:not(:checked) ~ #message:hover {
   display: flex;
 }
 
@@ -382,7 +383,7 @@ main:has(.finish :checked) #message {
  * So if the .finish button is checked, the player
  * arrived safely at the end...
  */
-main:has(.finish :checked) #message {
+form:has(.finish :checked) #message {
   .status::after {
     content: "You finished the course"
   }
@@ -391,7 +392,7 @@ main:has(.finish :checked) #message {
  * :checked, hide the Well Done! message and mute the
  * colors.
  */
-main:has(.finish :checked) .tokens:has(input:not(:checked)) ~ #message {
+form:has(.finish :checked) .tokens:has(input:not(:checked)) ~ #message {
   color: var(--light);
   background-color: var(--dark);
 
@@ -402,12 +403,12 @@ main:has(.finish :checked) .tokens:has(input:not(:checked)) ~ #message {
 /* Also hide the Well Done! message if the player fell
  * off the path, so the .start button is still :checked
  */
-main:has(.start :checked) #message .all {
+form:has(.start :checked) #message .all {
   display: none;
 }
 
-/* Replay link */
-a.button {
+/* Reset button */
+button {
   --border: var(--link-border);
   margin-top: 1em;
   padding: var(--gap) 1em;

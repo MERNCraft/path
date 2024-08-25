@@ -16,6 +16,8 @@ Have fun!
 
 */
 
+
+
 @counter-style mood {
   system: cyclic;
   symbols: 
@@ -23,19 +25,26 @@ Have fun!
   suffix: "";
 }
 
-main {
+@counter-style seconds {
+  system: cyclic;
+  symbols: "\00A0second" "\00A0seconds";
+  suffix: "";
+}
+
+form {
   counter-set:
     tokens 0
     available 0
   ;
 }
 
+
 p#mood::after {
   content: counter(tokens, mood);
 }
 
-main:has(.finish :checked),
-main:has(.start :checked) {
+form:has(.finish :checked),
+form:has(.start :checked) {
   div.tokens {
     label {
       counter-increment: available;
@@ -59,7 +68,7 @@ body:not(:has(.off:checked)) {
   animation: units 10s step-end forwards 10;
 }
 /* Use a different element for each animation */
-main:not(:has(.off:checked)) {
+form:not(:has(.off:checked)) {
   animation: tens 100s step-end forwards;
 }
 /* Stop both animations if #message:hover is applicable.
@@ -68,7 +77,7 @@ main:not(:has(.off:checked)) {
  */
 
 :has(#message:hover),
-main:has(.finish :checked),
+form:has(.finish :checked),
 body:has(.finish :checked)  {
   animation-play-state: paused;
 }
@@ -83,12 +92,13 @@ p#timer::after {
 
 /* By default, assume the player failed */
 #message .time::after {
-  content: "after " counter(tens) counter(units) " seconds!";
+  /* content: "after " counter(tens) counter(units) " "; */
+  content: "after " counter(tens) counter(units) counter(second, seconds) "!";
 }
 /* .finish will only be :checked if the player did not fail */
-main:has(.finish :checked) #message {
+form:has(.finish :checked) #message {
   .time::after {
-    content: "in " counter(tens) counter(units) " seconds";
+    content: "in " counter(tens) counter(units) " " counter(second, seconds);
   }
   .tokens {
     display: block;
@@ -102,9 +112,9 @@ main:has(.finish :checked) #message {
 }
 
 @keyframes units {
-    0% { counter-increment: units 0; }
-   10% { counter-increment: units 1; }
-   20% { counter-increment: units 2; }
+    0% { counter-increment: units 0 second 0; }
+   10% { counter-increment: units 1 second 1; }
+   20% { counter-increment: units 2 second 2; }
    30% { counter-increment: units 3; }
    40% { counter-increment: units 4; }
    50% { counter-increment: units 5; }

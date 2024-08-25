@@ -10,8 +10,7 @@
   <link rel="stylesheet" href="counters.css">
 </head>
 <body>
-  <main>
-
+  <form>
     <input type="radio" name="play" class="off" checked>
 
     <label class="start">
@@ -98,15 +97,8 @@
       <p class="tokens">and picked up <span>/</span> tokens!</p>
       <p class="all">Well done!</p>
 
-      <!-- <p>You ran off the track</p>
-      <p>after <span></span> seconds</p>
-
-      <p>You ran out of time</p>
-      <p>after <span></span> seconds</p> -->
-
-      <a href="/path" class="button">Play Again</a>
+      <button type="reset">Play Again</button>
     </div>
-
 
     <a
       class="github"
@@ -114,6 +106,7 @@
     >
       <img src="github.svg" alt="github">
     </a>
-  </main>
+  </form>
+  <p id="feedback"></p>
 </body>
 </html>
