@@ -17,7 +17,6 @@ Have fun!
 */
 
 
-
 @counter-style mood {
   system: cyclic;
   symbols: 
@@ -31,8 +30,15 @@ Have fun!
   suffix: "";
 }
 
+@counter-style tens {
+  system: cyclic;
+  symbols: "1" "2" "3" "4" "5" "6" "7" "8" "9" "";
+  suffix: "";
+}
+
+
 form {
-  counter-set:
+  counter-reset:
     tokens 0
     available 0
   ;
@@ -84,7 +90,7 @@ body:has(.finish :checked)  {
 
 
 p#timer::after {
-  content: counter(tens) counter(units);
+  content: counter(tens, tens) counter(units);
   margin-left: var(--gap);
   font-family:'Courier New', Courier, monospace
 }
@@ -92,13 +98,12 @@ p#timer::after {
 
 /* By default, assume the player failed */
 #message .time::after {
-  /* content: "after " counter(tens) counter(units) " "; */
-  content: "after " counter(tens) counter(units) counter(second, seconds) "!";
+  content: "after " counter(tens, tens) counter(units) counter(second, seconds) "!";
 }
 /* .finish will only be :checked if the player did not fail */
 form:has(.finish :checked) #message {
   .time::after {
-    content: "in " counter(tens) counter(units) " " counter(second, seconds);
+    content: "in " counter(tens, tens) counter(units) " " counter(second, seconds);
   }
   .tokens {
     display: block;
