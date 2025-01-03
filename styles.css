@@ -50,6 +50,12 @@ body {
   background-color: var(--dark);
 }
 
+form {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
 .button {
   border: 1px outset var(--border);
   border-radius: var(--gap);
